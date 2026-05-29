@@ -19,9 +19,10 @@ interface Props {
   onDelete: (id: string) => void
   onEdit: (task: Task) => void
   onAssign?: (task: Task) => void
+  onView?: (task: Task) => void
 }
 
-export default function TaskCard({ task, onDelete, onEdit, onAssign }: Props) {
+export default function TaskCard({ task, onDelete, onEdit, onAssign, onView }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: task.id,
     data: { task },
@@ -38,12 +39,13 @@ export default function TaskCard({ task, onDelete, onEdit, onAssign }: Props) {
       ref={setNodeRef}
       style={style}
       className="rounded-lg bg-surface-raised p-3 border border-border-light cursor-grab active:cursor-grabbing select-none hover:border-brand/40 transition-colors"
+      onClick={() => { if (!isDragging && onView) onView(task) }}
       {...attributes}
       {...listeners}
     >
-      <p className="text-sm font-medium text-white mb-2 leading-snug">{task.title}</p>
+      <p className="text-sm font-medium text-white mb-2 leading-snug truncate">{task.title}</p>
       {task.description && (
-        <p className="text-xs text-muted mb-2 line-clamp-2">{task.description}</p>
+        <p className="text-xs text-muted mb-2 line-clamp-2 break-all">{task.description}</p>
       )}
       <div className="flex items-center justify-between">
         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${priorityBadge[task.priority]}`}>

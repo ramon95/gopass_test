@@ -48,6 +48,7 @@ export default function Board({ projectId, tasks, members = [], modalOpen, onClo
 
   const [deletingTask, setDeletingTask] = useState<Task | null>(null)
   const [assigningTask, setAssigningTask] = useState<Task | null>(null)
+  const [viewingTask, setViewingTask] = useState<Task | null>(null)
 
   const createTask = useCreateTask(projectId)
   const updateTask = useUpdateTask(projectId)
@@ -170,6 +171,7 @@ export default function Board({ projectId, tasks, members = [], modalOpen, onClo
               onDeleteTask={(task) => setDeletingTask(task)}
               onEditTask={openEdit}
               onAssignTask={(task) => setAssigningTask(task)}
+              onViewTask={(task) => setViewingTask(task)}
             />
           ))}
         </div>
@@ -323,6 +325,62 @@ export default function Board({ projectId, tasks, members = [], modalOpen, onClo
             </Button>
           </div>
         </div>
+      </Modal>
+
+      {/* Modal ver tarea */}
+      <Modal open={!!viewingTask} onClose={() => setViewingTask(null)} title="Detalle de tarea">
+        {viewingTask && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="text-xs text-faded uppercase tracking-wide mb-1">Título</p>
+              <p className="text-white font-medium leading-snug">{viewingTask.title}</p>
+            </div>
+            {viewingTask.description && (
+              <div>
+                <p className="text-xs text-faded uppercase tracking-wide mb-1">Descripción</p>
+                <p className="text-sm text-muted whitespace-pre-wrap leading-relaxed">{viewingTask.description}</p>
+              </div>
+            )}
+            <div className="flex items-center gap-6 flex-wrap">
+              <div>
+                <p className="text-xs text-faded uppercase tracking-wide mb-1">Prioridad</p>
+                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                  viewingTask.priority === 'low'
+                    ? 'bg-brand/10 text-brand-light border border-brand/20'
+                    : viewingTask.priority === 'medium'
+                    ? 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/20'
+                    : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                }`}>
+                  {viewingTask.priority === 'low' ? 'Baja' : viewingTask.priority === 'medium' ? 'Media' : 'Alta'}
+                </span>
+              </div>
+              <div>
+                <p className="text-xs text-faded uppercase tracking-wide mb-1">Estado</p>
+                <span className="text-xs text-muted">
+                  {viewingTask.status === 'pending' ? 'Pendiente' : viewingTask.status === 'in_progress' ? 'En progreso' : 'Completado'}
+                </span>
+              </div>
+              {viewingTask.assigned_user_name && (
+                <div>
+                  <p className="text-xs text-faded uppercase tracking-wide mb-1">Asignado a</p>
+                  <span className="text-xs text-muted">{viewingTask.assigned_user_name}</span>
+                </div>
+              )}
+              {viewingTask.due_date && (
+                <div>
+                  <p className="text-xs text-faded uppercase tracking-wide mb-1">Fecha límite</p>
+                  <span className="text-xs text-muted">
+                    {new Date(viewingTask.due_date).toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="flex justify-end gap-2 pt-1 border-t border-border">
+              <Button variant="secondary" onClick={() => setViewingTask(null)}>Cerrar</Button>
+              <Button onClick={() => { setViewingTask(null); openEdit(viewingTask) }}>Editar</Button>
+            </div>
+          </div>
+        )}
       </Modal>
 
       <Modal open={!!editingTask} onClose={() => setEditingTask(null)} title="Editar tarea">

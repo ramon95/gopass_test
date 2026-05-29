@@ -17,9 +17,10 @@ interface Props {
   onDeleteTask: (task: Task) => void
   onEditTask: (task: Task) => void
   onAssignTask: (task: Task) => void
+  onViewTask: (task: Task) => void
 }
 
-export default function Column({ status, tasks, onDeleteTask, onEditTask, onAssignTask }: Props) {
+export default function Column({ status, tasks, onDeleteTask, onEditTask, onAssignTask, onViewTask }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: status })
   const meta = columnMeta[status]
 
@@ -34,7 +35,7 @@ export default function Column({ status, tasks, onDeleteTask, onEditTask, onAssi
       <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
         <div ref={setNodeRef} className="flex flex-col gap-2 p-3 flex-1">
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} onDelete={() => onDeleteTask(task)} onEdit={onEditTask} onAssign={onAssignTask} />
+            <TaskCard key={task.id} task={task} onDelete={() => onDeleteTask(task)} onEdit={onEditTask} onAssign={onAssignTask} onView={onViewTask} />
           ))}
           {tasks.length === 0 && (
             <p className="text-xs text-faded text-center py-4">Sin tareas</p>
