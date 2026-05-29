@@ -161,7 +161,7 @@ export default function Board({ projectId, tasks, members = [], modalOpen, onClo
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4">
+        <div className="flex gap-4 overflow-x-auto p-2.5 pb-4">
           {STATUSES.map((status) => (
             <Column
               key={status}

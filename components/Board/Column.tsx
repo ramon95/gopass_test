@@ -24,7 +24,7 @@ export default function Column({ status, tasks, onDeleteTask, onEditTask, onAssi
   const meta = columnMeta[status]
 
   return (
-    <div className={`flex flex-col rounded-xl border-2 ${meta.color} ${isOver ? 'ring-2 ring-brand' : ''} min-h-[400px] w-72 flex-shrink-0 transition-all`}>
+    <div className={`flex flex-col rounded-xl border-2 overflow-hidden isolate ${meta.color} ${isOver ? 'ring-2 ring-brand' : ''} min-h-[400px] w-72 flex-shrink-0 transition-all`}>
       <div className="flex items-center gap-2 p-3 border-b border-border">
         <span className={`h-2.5 w-2.5 rounded-full ${meta.dot}`} />
         <h3 className="font-semibold text-sm text-white">{meta.label}</h3>

@@ -28,7 +28,7 @@ export default function TaskCard({ task, onDelete, onEdit, onAssign }: Props) {
   })
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 0.4 : 1,
   }

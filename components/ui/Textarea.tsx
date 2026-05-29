@@ -7,14 +7,13 @@ interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export default function Textarea({ label, error, maxLength, value, className = '', ...props }: Props) {
   const current = typeof value === 'string' ? value.length : 0
-  const nearLimit = maxLength && current >= maxLength * 0.85
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between">
         {label && <label className="text-sm font-medium text-muted">{label}</label>}
         {maxLength && (
-          <span className={`text-xs tabular-nums ${nearLimit ? 'text-red-400' : 'text-faded'}`}>
+          <span className="text-xs tabular-nums text-faded">
             {current}/{maxLength}
           </span>
         )}

@@ -11,13 +11,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Todos los campos son requeridos' }, { status: 400 })
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: 'El correo electrónico no es válido' }, { status: 400 })
+    }
+
     if (password.length < 6) {
       return NextResponse.json({ error: 'La contraseña debe tener al menos 6 caracteres' }, { status: 400 })
     }
 
     const existing = await db.query('SELECT id FROM users WHERE email = $1', [email])
     if (existing.rows.length > 0) {
-      return NextResponse.json({ error: 'El email ya está registrado' }, { status: 409 })
+      return NextResponse.json({ error: 'El correo electrónico ya está registrado' }, { status: 409 })
     }
 
     const password_hash = await bcrypt.hash(password, 12)

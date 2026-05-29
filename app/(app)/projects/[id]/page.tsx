@@ -145,8 +145,8 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
   return (
     <>
-      <div className="flex items-start justify-between mb-6">
-        <div>
+      <div className="flex items-start justify-between mb-6 gap-4 min-w-0">
+        <div className="min-w-0">
           <button
             onClick={() => router.push('/')}
             className="text-sm text-muted hover:text-brand flex items-center gap-1 mb-2 transition-colors"
@@ -156,9 +156,9 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
             </svg>
             Proyectos
           </button>
-          <h1 className="text-2xl font-bold text-white">{project.name}</h1>
+          <h1 className="text-2xl font-bold text-white truncate">{project.name}</h1>
           {project.description && (
-            <p className="text-sm text-muted mt-1">{project.description}</p>
+            <p className="text-sm text-muted mt-1 line-clamp-2 break-all">{project.description}</p>
           )}
         </div>
 

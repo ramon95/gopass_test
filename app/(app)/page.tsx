@@ -26,7 +26,7 @@ function ProjectCard({ project, onDelete, onEdit, isAdmin }: ProjectCardProps) {
       onClick={() => router.push(`/projects/${project.id}`)}
     >
       <div className="flex items-start justify-between gap-2">
-        <h3 className="font-semibold text-white group-hover:text-brand transition-colors">{project.name}</h3>
+        <h3 className="font-semibold text-white group-hover:text-brand transition-colors truncate min-w-0">{project.name}</h3>
         {isAdmin && <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
           <button
             onClick={(e) => { e.stopPropagation(); onEdit(project) }}
@@ -50,7 +50,7 @@ function ProjectCard({ project, onDelete, onEdit, isAdmin }: ProjectCardProps) {
         </div>}
       </div>
       {project.description && (
-        <p className="text-sm text-muted mt-1 line-clamp-2">{project.description}</p>
+        <p className="text-sm text-muted mt-1 line-clamp-2 break-all">{project.description}</p>
       )}
       <p className="text-xs text-faded mt-3">
         {new Date(project.created_at).toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })}

@@ -62,7 +62,7 @@ export default function LoginPage() {
           {mode === 'register' && (
             <Input label="Nombre" value={name} onChange={(e) => setName(e.target.value)} placeholder="Tu nombre" required />
           )}
-          <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" required />
+          <Input label="Correo electrónico" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@correo.com" required />
           <Input label="Contraseña" showPasswordToggle value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••" required />
 
           {error && (
