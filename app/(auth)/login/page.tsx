@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
+import GopassLogo from '@/components/GopassLogo'
 
 type Mode = 'login' | 'register'
 
@@ -50,8 +51,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-bg">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/gopass.svg" alt="Gopass" className="h-16 w-16 mx-auto mb-4" />
+          <GopassLogo className="h-16 w-16 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white">Gopass Manager</h1>
           <p className="text-sm text-muted mt-1">
             {mode === 'login' ? 'Inicia sesión para continuar' : 'Crea tu cuenta'}
