@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Diagrama ER — Gopass Manager</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #1e1e2e;
+    width: 1060px;
+  }
+  .canvas {
+    position: relative;
+    width: 1060px;
+    height: 960px;
+  }
+  .er-table {
+    position: absolute;
+    background: #252535;
+    border: 1px solid #383858;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .er-table-header {
+    background: #2d2d48;
+    color: #dcdcf8;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    padding: 9px 12px;
+    border-bottom: 1px solid #38385a;
+  }
+  .er-row {
+    display: flex;
+    align-items: center;
+    height: 25px;
+    border-top: 1px solid #2a2a42;
+  }
+  .col-type {
+    color: #4d7ca8;
+    font-size: 10.5px;
+    padding: 0 6px;
+    width: 84px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .col-name {
+    color: #c4c4e0;
+    font-size: 12px;
+    padding: 0 8px;
+    flex: 1;
+  }
+  .col-key {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 0 7px;
+    min-width: 40px;
+    text-align: center;
+  }
+  .pk   { color: #d4a820; }
+  .fk   { color: #4898d0; }
+  .pkfk { color: #78b848; font-size: 9px; }
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: landscape; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+<!--
+  Table layout (pixels):
+  users:          left=385  top=58   width=230  height=184  right=615  bottom=242  cx=500  cy=150
+  projects:       left=78   top=300  width=255  height=184  right=333  bottom=484  cx=206  cy=392
+  project_members:left=695  top=300  width=245  height=109  right=940  bottom=409  cx=818  cy=355
+  tasks:          left=315  top=558  width=285  height=309  right=600  bottom=867  cx=458  cy=712
+-->
+
+<svg width="1060" height="960" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
+
+  <!-- Title -->
+  <text x="530" y="31" text-anchor="middle" fill="#00e400"
+        font-family="'Segoe UI',Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="1.5">
+    ER DIAGRAM — GOPASS MANAGER
+  </text>
+  <text x="530" y="47" text-anchor="middle" fill="#44445a"
+        font-family="'Segoe UI',Arial,sans-serif" font-size="10.5">
+    PostgreSQL Schema · 4 tables · 5 relationships
+  </text>
+
+  <!-- ====== LINES ====== -->
+
+  <!-- 1. users.id → projects.owner_id  (owns · 1:N) -->
+  <line x1="500" y1="242" x2="206" y2="300"
+        stroke="#484868" stroke-width="1.5"/>
+  <circle cx="500" cy="242" r="3.5" fill="none"    stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="206" cy="300" r="3.5" fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="368" y="258" text-anchor="middle"
+        fill="#555578" font-family="'Segoe UI',sans-serif" font-size="10">owns</text>
+  <text x="500" y="234" text-anchor="middle"
+        fill="#6464a0" font-family="monospace" font-size="10">1</text>
+  <text x="194" y="318" text-anchor="middle"
+        fill="#6464a0" font-family="monospace" font-size="10">N</text>
+
+  <!-- 2. projects.id → project_members.project_id  (has members · 1:N) -->
+  <line x1="333" y1="392" x2="695" y2="355"
+        stroke="#484868" stroke-width="1.5"/>
+  <circle cx="333" cy="392" r="3.5" fill="none"    stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="695" cy="355" r="3.5" fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="514" y="366" text-anchor="middle"
+        fill="#555578" font-family="'Segoe UI',sans-serif" font-size="10">has members</text>
+  <text x="347" y="388"
+        fill="#6464a0" font-family="monospace" font-size="10">1</text>
+  <text x="682" y="350" text-anchor="end"
+        fill="#6464a0" font-family="monospace" font-size="10">N</text>
+
+  <!-- 3. users.id → project_members.user_id  (member of · 1:N) -->
+  <path d="M 615,143 C 740,143 818,212 818,300"
+        fill="none" stroke="#484868" stroke-width="1.5"/>
+  <circle cx="615" cy="143" r="3.5" fill="none"    stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="818" cy="300" r="3.5" fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="748" y="200" text-anchor="middle"
+        fill="#555578" font-family="'Segoe UI',sans-serif" font-size="10">member of</text>
+  <text x="628" y="141"
+        fill="#6464a0" font-family="monospace" font-size="10">1</text>
+  <text x="830" y="318"
+        fill="#6464a0" font-family="monospace" font-size="10">N</text>
+
+  <!-- 4. projects.id → tasks.project_id  (contains · 1:N) -->
+  <path d="M 206,484 C 206,524 390,524 390,558"
+        fill="none" stroke="#484868" stroke-width="1.5"/>
+  <circle cx="206" cy="484" r="3.5" fill="none"    stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="390" cy="558" r="3.5" fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="270" y="518" text-anchor="middle"
+        fill="#555578" font-family="'Segoe UI',sans-serif" font-size="10">contains</text>
+  <text x="206" y="476" text-anchor="middle"
+        fill="#6464a0" font-family="monospace" font-size="10">1</text>
+  <text x="378" y="554" text-anchor="end"
+        fill="#6464a0" font-family="monospace" font-size="10">N</text>
+
+  <!-- 5. users.id → tasks.assigned_to  (assigned to · 0..1:N · dashed) -->
+  <!-- assigned_to center-y: 558+34+25+25+12.5 = 654.5 ≈ 655 -->
+  <path d="M 615,168 C 968,168 968,655 600,655"
+        fill="none" stroke="#484868" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="615" cy="168" r="3.5" fill="none"    stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="600" cy="655" r="3.5" fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="878" y="415" text-anchor="middle"
+        fill="#555578" font-family="'Segoe UI',sans-serif" font-size="10">assigned to</text>
+  <text x="630" y="165"
+        fill="#6464a0" font-family="monospace" font-size="10">0..1</text>
+  <text x="587" y="671" text-anchor="end"
+        fill="#6464a0" font-family="monospace" font-size="10">N</text>
+
+  <!-- Legend -->
+  <rect x="32" y="885" width="200" height="56" rx="6" fill="#202030" stroke="#383858" stroke-width="1"/>
+  <text x="44" y="903" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10" font-weight="600">Legend</text>
+  <line x1="44" y1="915" x2="74" y2="915" stroke="#484868" stroke-width="1.5"/>
+  <circle cx="44" cy="915" r="3"  fill="none" stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="74" cy="915" r="3"  fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="80" y="918" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10">Relationship (1:N)</text>
+  <line x1="44" y1="930" x2="74" y2="930" stroke="#484868" stroke-width="1.5" stroke-dasharray="4,2.5"/>
+  <circle cx="44" cy="930" r="3"  fill="none" stroke="#6060a0" stroke-width="1.5"/>
+  <circle cx="74" cy="930" r="3"  fill="#484868" stroke="#6060a0" stroke-width="1.5"/>
+  <text x="80" y="933" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10">Optional (0..1:N)</text>
+
+  <!-- Key type legend -->
+  <rect x="250" y="885" width="200" height="56" rx="6" fill="#202030" stroke="#383858" stroke-width="1"/>
+  <text x="262" y="903" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10" font-weight="600">Keys</text>
+  <text x="262" y="917" fill="#d4a820" font-family="'Courier New',monospace" font-size="10" font-weight="700">PK</text>
+  <text x="284" y="917" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10">Primary Key</text>
+  <text x="262" y="931" fill="#4898d0" font-family="'Courier New',monospace" font-size="10" font-weight="700">FK</text>
+  <text x="284" y="931" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10">Foreign Key</text>
+
+  <!-- Index note -->
+  <rect x="468" y="885" width="320" height="56" rx="6" fill="#202030" stroke="#383858" stroke-width="1"/>
+  <text x="480" y="903" fill="#888" font-family="'Segoe UI',sans-serif" font-size="10" font-weight="600">Indexes</text>
+  <text x="480" y="917" fill="#5585a8" font-family="'Courier New',monospace" font-size="9.5">UNIQUE (project_id, status, "order")</text>
+  <text x="480" y="931" fill="#555568" font-family="'Segoe UI',sans-serif" font-size="9.5">Order integrity per Kanban column</text>
+
+</svg>
+
+<!-- ====== USERS: left=385, top=58, width=230 ====== -->
+<div class="er-table" style="left:385px;top:58px;width:230px;">
+  <div class="er-table-header">users</div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">id</span>
+    <span class="col-key pk">PK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">varchar</span>
+    <span class="col-name">name</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">varchar</span>
+    <span class="col-name">email</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">text</span>
+    <span class="col-name">password_hash</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">varchar</span>
+    <span class="col-name">role</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">created_at</span>
+    <span class="col-key"></span>
+  </div>
+</div>
+
+<!-- ====== PROJECTS: left=78, top=300, width=255 ====== -->
+<div class="er-table" style="left:78px;top:300px;width:255px;">
+  <div class="er-table-header">projects</div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">id</span>
+    <span class="col-key pk">PK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">owner_id</span>
+    <span class="col-key fk">FK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">varchar</span>
+    <span class="col-name">name</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">text</span>
+    <span class="col-name">description</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">created_at</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">updated_at</span>
+    <span class="col-key"></span>
+  </div>
+</div>
+
+<!-- ====== PROJECT_MEMBERS: left=695, top=300, width=245 ====== -->
+<div class="er-table" style="left:695px;top:300px;width:245px;">
+  <div class="er-table-header">project_members</div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">project_id</span>
+    <span class="col-key pkfk">PK,FK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">user_id</span>
+    <span class="col-key pkfk">PK,FK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">added_at</span>
+    <span class="col-key"></span>
+  </div>
+</div>
+
+<!-- ====== TASKS: left=315, top=558, width=285 ====== -->
+<div class="er-table" style="left:315px;top:558px;width:285px;">
+  <div class="er-table-header">tasks</div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">id</span>
+    <span class="col-key pk">PK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">project_id</span>
+    <span class="col-key fk">FK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">uuid</span>
+    <span class="col-name">assigned_to</span>
+    <span class="col-key fk">FK</span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">varchar</span>
+    <span class="col-name">title</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">text</span>
+    <span class="col-name">description</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">enum</span>
+    <span class="col-name">status</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">enum</span>
+    <span class="col-name">priority</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">integer</span>
+    <span class="col-name">order</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">due_date</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">created_at</span>
+    <span class="col-key"></span>
+  </div>
+  <div class="er-row">
+    <span class="col-type">timestamp</span>
+    <span class="col-name">updated_at</span>
+    <span class="col-key"></span>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
